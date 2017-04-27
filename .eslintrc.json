@@ -5,10 +5,12 @@
         "es6": true
     },
     "extends": "eslint-config-airbnb",
+    "parser": "babel-eslint",
     "parserOptions": {
         "ecmaFeatures": {
             "experimentalObjectRestSpread": true,
-            "jsx": true
+            "jsx": true,
+            "modules": true
         },
         "sourceType": "module"
     },

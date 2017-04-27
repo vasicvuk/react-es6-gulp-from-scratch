@@ -4,7 +4,7 @@ import gulp from 'gulp';
 import connect from 'gulp-connect'; // Pokrece lokalni dev server
 import open from 'gulp-open'; // Otvara URL u web browseru
 import browserify from 'browserify';
-import reactify from 'reactify';
+import babelify from 'babelify';
 import source from 'vinyl-source-stream';
 import concat from 'gulp-concat';
 import eslint from 'gulp-eslint';
@@ -15,8 +15,8 @@ const config = {
   paths: {
     html: './src/*.html',
     dist: './dist',
-    js: './src/**/*.js',
-    mainJs: './src/main.js',
+    js: ['./src/**/*.js','./src/**/*.jsx'],
+    mainJs: './src/main.jsx',
     css: [
       './src/css/style.css',
     ],
@@ -42,7 +42,6 @@ gulp.task('watch', () => {
   gulp.watch(config.paths.js, ['js']);
 });
 
-
 gulp.task('html', () => {
   gulp.src(config.paths.html)
         .pipe(gulp.dest(config.paths.dist))
@@ -57,8 +56,8 @@ gulp.task('css', () => {
 
 
 gulp.task('js', () => {
-  browserify(config.paths.mainJs)
-        .transform(reactify).bundle()
+  browserify(config.paths.mainJs, { extensions: ['.jsx'] })
+        .transform(babelify, { presets: ['es2015', 'react', 'stage-0'] }).bundle()
         .on('error', console.error.bind(console))
         .pipe(source('bundle.js'))
         .pipe(gulp.dest(`${config.paths.dist}/scripts`))
