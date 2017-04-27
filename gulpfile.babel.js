@@ -14,8 +14,9 @@ const config = {
   devBaseUrl: 'http://localhost',
   paths: {
     html: './src/*.html',
+    images: './src/images/*',
     dist: './dist',
-    js: ['./src/**/*.js','./src/**/*.jsx'],
+    js: ['./src/**/*.js', './src/**/*.jsx'],
     mainJs: './src/main.jsx',
     css: [
       './src/css/style.css',
@@ -40,6 +41,7 @@ gulp.task('open', ['connect'], () => {
 gulp.task('watch', () => {
   gulp.watch(config.paths.html, ['html']);
   gulp.watch(config.paths.js, ['js']);
+  gulp.watch(config.paths.css, ['css']);
 });
 
 gulp.task('html', () => {
@@ -52,6 +54,11 @@ gulp.task('css', () => {
   gulp.src(config.paths.css)
         .pipe(concat('bundle.css'))
         .pipe(gulp.dest(`${config.paths.dist}/css`));
+});
+
+gulp.task('images', () => {
+  gulp.src(config.paths.images)
+    .pipe(gulp.dest(`${config.paths.dist}/images`));
 });
 
 
@@ -71,4 +78,4 @@ gulp.task('lint', () => {
     .pipe(eslint.failAfterError());
 });
 
-gulp.task('default', ['html', 'lint', 'css', 'js', 'open', 'watch']);
+gulp.task('default', ['html', 'lint', 'images', 'css', 'js', 'open', 'watch']);

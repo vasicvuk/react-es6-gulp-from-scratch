@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Home from './components/homePage';
 import About from './components/about/aboutPage';
+import Header from './components/common/header';
 
 export default class App extends Component {
 
@@ -19,9 +22,12 @@ export default class App extends Component {
     }
 
     return (
-      <div>
-        <Child />
-      </div>
+      <MuiThemeProvider muiTheme={this.muiTheme}>
+        <div>
+          <Header />
+          <Child />
+        </div>
+      </MuiThemeProvider>
     );
   }
 }
@@ -35,4 +41,5 @@ const renderPage = () => {
 
 window.addEventListener('hashchange', renderPage);
 
+injectTapEventPlugin();
 renderPage();
